@@ -1,0 +1,375 @@
+{
+  "name": "My workflow 5",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1040,
+        176
+      ],
+      "id": "063382d6-6118-41b5-8252-0c26b1218a8f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1s7OyUrFukkmGFXaURDlut0NotAKVGq-NlABCPCE58vk",
+          "mode": "list",
+          "cachedResultName": "Untitled spreadsheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1s7OyUrFukkmGFXaURDlut0NotAKVGq-NlABCPCE58vk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 760968824,
+          "mode": "list",
+          "cachedResultName": "regenerate the decision column ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1s7OyUrFukkmGFXaURDlut0NotAKVGq-NlABCPCE58vk/edit#gid=760968824"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -912,
+        176
+      ],
+      "id": "0337d437-04c7-4e5e-ab81-65f99844c216",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1IFKGmjAfyJxCLRl",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "856f6d79-ac0e-4bd1-b689-5bdee98b7561",
+              "leftValue": "={{ $json.Annual_Income_USD }}",
+              "rightValue": 80000,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -752,
+        176
+      ],
+      "id": "c3e56e9e-9f29-4bc1-8157-1d7bffafc07e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "554359f7-f665-43a0-ae75-bafe8d98c910",
+              "leftValue": "={{ $json.Credit_Score }}",
+              "rightValue": 680,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -576,
+        96
+      ],
+      "id": "50cde76b-fc9d-4317-a0d2-c4acccfda2e5",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "sendTo": "makkarvardan0@gmail.com",
+        "subject": "Reject Application",
+        "message": "income is low",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -592,
+        240
+      ],
+      "id": "96e84b5e-9620-4541-821b-50069d065bdf",
+      "name": "Send a message",
+      "webhookId": "e283c994-4a55-4355-8f77-628aa191999b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EKT4QXQKU77Phls8",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d47d5027-3f58-48f9-b6ec-f17b162f6b74",
+              "leftValue": "={{ $('Get row(s) in sheet').item.json.Debt_To_Income_Ratio }}",
+              "rightValue": 0.4,
+              "operator": {
+                "type": "number",
+                "operation": "lte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -400,
+        64
+      ],
+      "id": "ba929b5b-ac22-4961-a2d6-1010bc45d16e",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "sendTo": "makkarvardan0@gmail.com",
+        "subject": "Reject Application",
+        "message": "Low credit score",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -336,
+        208
+      ],
+      "id": "64ff4acc-b7d2-4727-8032-58e7a8466a77",
+      "name": "Send a message1",
+      "webhookId": "5cf54630-4ca6-407d-b5ec-90ba32246bd7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EKT4QXQKU77Phls8",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b6c678bb-0ba4-4a05-a4f4-cc040ed5bebf",
+              "leftValue": "={{ $('Get row(s) in sheet').item.json.Watchlist_Match_Pct }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -176,
+        48
+      ],
+      "id": "74751dca-7eeb-47e3-b007-dd833ee278e6",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "sendTo": "makkarvardan0@gmail.com",
+        "subject": "Loan Approved",
+        "message": "Congratulation your application has been approved",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "97d06819-7268-4d6c-b311-c6e2d6c5885e",
+      "name": "Send a message2",
+      "webhookId": "26769f85-6dd2-416e-9d7e-3237d713646f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EKT4QXQKU77Phls8",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "makkarvardan0@gmail.com",
+        "subject": "Review Application",
+        "message": "Compliance Check required",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        176
+      ],
+      "id": "3016c59e-5b3a-4c0f-a622-cd5bbdb3415f",
+      "name": "Send a message3",
+      "webhookId": "00535c1b-7e2b-4b67-a708-a7d88906002c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EKT4QXQKU77Phls8",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "23cff042-685b-4819-a4aa-452a5a7d78e6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "21b98ca27a34b2e872779ad920e2a01041c86122ff88f0888b27e19234dcddcf"
+  },
+  "id": "GD81jmlfG8LWSsMi",
+  "tags": []
+}
